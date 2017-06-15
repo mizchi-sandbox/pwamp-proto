@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom/server'
 import Document, { Head, Main, NextScript } from 'next/document'
 import { DOMProperty } from 'react-dom/lib/ReactInjection'
 import { properties as DOMProperties } from 'react-dom/lib/DOMProperty'
@@ -29,7 +28,8 @@ export default class MyDocument extends Document {
     const originalUrl = parse(url).pathname
 
     // Extract title from head object
-    const title = this.props.head.find(i => i.type === 'title')
+    const titleEl = this.props.head.find(i => i.type === 'title')
+    const titleText = titleEl ? titleEl.props.children : url
 
     return (
       <html {...htmlProps}>
@@ -38,6 +38,7 @@ export default class MyDocument extends Document {
           ? <head>
               <meta charSet="utf-8" />
               <link rel="canonical" href={originalUrl} />
+              <title>{titleText}</title>
               <style amp-custom="">{`body {font-family: Roboto, sans-serif; padding: 30px; color: #444;} h1 {margin-bottom: 5px;} .byline { color: #aaa; margin-bottom: 25px; } p {font-size: 18px; line-height: 30px; margin-top: 30px;} .caption {color: #ccc; margin-top: 0; font-size: 14px; text-align: center;}`}</style>
               <style amp-boilerplate="">{`body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}`}</style>
               <noscript>

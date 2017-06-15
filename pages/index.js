@@ -1,9 +1,7 @@
-// export default () => {
-//   return <div>a</div>
-// }
 import Head from 'next/head'
 export default class Index extends React.Component {
   componentDidMount() {
+    // Run on non-amp page
     console.log('main')
   }
   render() {
