@@ -30,6 +30,7 @@ export default class MyDocument extends Document {
     // Extract title from head object
     const titleEl = this.props.head.find(i => i.type === 'title')
     const titleText = titleEl ? titleEl.props.children : url
+    const HOST = "http://localhost:3000"
 
     return (
       <html {...htmlProps}>
@@ -49,11 +50,12 @@ export default class MyDocument extends Document {
                 content="width=device-width,minimum-scale=1"
               />
               <script async src="https://cdn.ampproject.org/v0.js" />
+              <script async custom-element="amp-install-serviceworker" src="https://cdn.ampproject.org/v0/amp-install-serviceworker-0.1.js"></script>
             </head>
-          : <head>
+          : <Head>
               <meta charSet="utf-8" />
               <link rel="canonical" href={originalUrl} />
-            </head>}
+            </Head>}
         {/* Body */}
         {isAmp
           ? <body>
@@ -61,6 +63,11 @@ export default class MyDocument extends Document {
               <a href={originalUrl}>Go to original</a>
               <hr />
               <div id="__next" dangerouslySetInnerHTML={{ __html: html }} />
+              <amp-install-serviceworker
+                src={`${HOST}/sw.js`}
+                data-iframe-src={HOST}
+                layout="nodisplay">
+              </amp-install-serviceworker>
             </body>
           : <body>
               <Main />
