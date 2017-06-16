@@ -4,7 +4,6 @@ const next = require('next')
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
-const swFile = fs.readFileSync('static/sw.js').toString()
 
 app.prepare()
 .then(() => {
@@ -12,6 +11,8 @@ app.prepare()
 
   // Send js from root to sw's scope
   server.get('/sw.js', (req, res) => {
+    // read each for debug
+    const swFile = fs.readFileSync('static/sw.js').toString()
     res.contentType('text/javascript')
     return res.send(swFile)
   })
